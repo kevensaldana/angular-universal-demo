@@ -11,7 +11,8 @@ import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
-  const distFolder = '/var/www/code/browser';
+  console.log('NODE_ENV', process.env.NODE_ENV);
+  const distFolder = process.env.NODE_ENV === 'production' ? '/var/www/code/browser' : 'dist/demo-angular-universal/browser';
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -27,6 +28,12 @@ export function app() {
     lastModified: false,
     cacheControl: false
   }));
+
+  // Example Express Rest API endpoints
+  server.get('/api/list-new', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({key: 'value'}));
+  });
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
