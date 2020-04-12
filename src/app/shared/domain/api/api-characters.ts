@@ -8,6 +8,6 @@ export class ApiCharacters {
 
   }
   fetch() {
-    this.apiService.get<ResponseCharacter>('/api/list-new');
+    return this.apiService.get<ResponseCharacter>('/api/list-characters');
   }
 }

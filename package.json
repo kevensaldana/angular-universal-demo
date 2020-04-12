@@ -25,6 +25,7 @@
     "@nguniversal/express-engine": "^9.0.2",
     "@ngxs/store": "^3.6.2",
     "express": "^4.15.2",
+    "node-fetch": "^2.6.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -41,6 +42,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "dotenv": "^8.2.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",

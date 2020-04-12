@@ -6,7 +6,10 @@ export class CharactersFacade {
     constructor(private characterRepository: CharacterRepository) {
 
     }
-    request() {
-      this.characterRepository.list();
+    load() {
+      return this.characterRepository.load();
+    }
+    list() {
+      return this.characterRepository.list();
     }
 }

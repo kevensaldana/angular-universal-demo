@@ -2,7 +2,9 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import fetch from 'node-fetch';
 import { join } from 'path';
+require('dotenv').config();
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -30,9 +32,28 @@ export function app() {
   }));
 
   // Example Express Rest API endpoints
-  server.get('/api/list-new', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({key: 'value'}));
+  server.get('/api/list-characters', (request, response) => {
+    response.setHeader('Content-Type', 'application/json');
+    fetch(getUrlCharacter())
+    // tslint:disable-next-line:no-shadowed-variable
+      .then((response) => response.json())
+      // tslint:disable-next-line:no-shadowed-variable
+      .then((response) => {
+        const {data} = response;
+        const result = data.results.map(item => ({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image: `${item.thumbnail.path}.${item.thumbnail.extension}`
+        }));
+        return {
+          limit: data.limit,
+          total: data.total,
+          count: data.count,
+          result
+        };
+      })
+      .then((data) => response.send(JSON.stringify(data)));
   });
 
   // All regular routes use the Universal engine
@@ -41,6 +62,10 @@ export function app() {
   });
 
   return server;
+}
+
+function getUrlCharacter() {
+  return `https://gateway.marvel.com:443/v1/public/characters?ts=${process.env.AM_TS}&apikey=${process.env.AM_KEY}&hash=${process.env.AM_HASH}`;
 }
 
 function run() {

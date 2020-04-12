@@ -1,4 +1,4 @@
-import { Action, State, StateContext } from '@ngxs/store';
+import {Action, Selector, State, StateContext} from '@ngxs/store';
 import { CharacterActions } from './character-actions';
 
 interface Character {
@@ -24,6 +24,12 @@ export interface CharacterStoreInterface {
   }
 })
 export class CharacterStore {
+
+  @Selector()
+  static characters(state: CharacterStoreInterface) {
+    return { ... state};
+  }
+
   @Action(CharacterActions.Fetch)
   fetch(ctx: StateContext<CharacterStoreInterface>, action: CharacterActions.Fetch) {
     ctx.setState({

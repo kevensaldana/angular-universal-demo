@@ -1,0 +1,9 @@
+<div class="character-list">
+  <app-character-item [id]="character.id"
+                      [description]="character.description"
+                      [image]="character.image"
+                      [name]="character.name"
+                      *ngFor="let character of ($listCharacters | async).result">
+
+  </app-character-item>
+</div>
