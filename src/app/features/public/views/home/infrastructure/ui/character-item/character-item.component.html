@@ -1,11 +1,6 @@
-<div>
-  {{id}}
-  <div>
-    {{name}}
+<div class="character-item hover:cursor-pointer relative max-w-sm h-48 md:h-88 rounded-lg overflow-hidden shadow-lg bg-white m-4" [ngStyle]="{'background-image': 'url('+image+')', 'background-size': 'cover'}">
+  <div class="character-item__content absolute w-full h-full flex items-center justify-center flex-col" >
+    <span class="font-semibold text-2xl md:text-3xl text-center">{{name}}</span>
+    <span class="material-icons absolute bottom-0 mb-1 text-4xl md:text-5xl cursor-pointer hover:text-primary"> expand_more </span>
   </div>
-  <div>
-    {{description}}
-  </div>
-  <img src="{{image}}" alt="">
 </div>
-<button class="btn">hola</button>
