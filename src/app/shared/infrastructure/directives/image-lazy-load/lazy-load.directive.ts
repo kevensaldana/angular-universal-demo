@@ -1,10 +1,10 @@
 import { AfterViewInit, Directive, ElementRef, HostBinding, Input } from '@angular/core';
 
 @Directive({
-  selector: 'img[appLazyLoad]'
+  selector: '[appLazyLoad]'
 })
 export class LazyLoadDirective implements AfterViewInit {
-  @HostBinding('attr.src') srcAttr = null;
+  @HostBinding('style.background-image') srcAttr = null;
   @Input() src: string;
 
   constructor(private el: ElementRef) {}
@@ -30,7 +30,7 @@ export class LazyLoadDirective implements AfterViewInit {
   }
 
   private loadImage() {
-    this.srcAttr = this.src;
+    this.srcAttr = `url(${this.src})`;
   }
 
 }

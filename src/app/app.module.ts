@@ -7,6 +7,7 @@ import {NgxsModule} from '@ngxs/store';
 import { CharacterStore } from './shared/domain/character-store';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
   imports: [
     HttpClientModule,
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsModule.forRoot([CharacterStore]),
+    NgxsModule.forRoot([CharacterStore], {
+      developmentMode: !environment.production
+    }),
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule
   ],

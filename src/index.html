@@ -5,10 +5,25 @@
   <title>DemoAngularUniversal</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="http://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://ajax.googleapis.com" />
 </head>
 <body>
   <app-root></app-root>
+  <script type="text/javascript">
+      WebFontConfig = {
+          google: { families: ['Material+Icons|Poppins:300,400,500,700,800,900&display=swap']
+                  }
+      };
+      (function(d) {
+          var wf = d.createElement('script'), s = d.scripts[0];
+          wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+          wf.async = true;
+          s.parentNode.insertBefore(wf, s);
+      })(document);
+  </script>
 </body>
 </html>

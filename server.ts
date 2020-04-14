@@ -5,6 +5,7 @@ import * as express from 'express';
 import fetch from 'node-fetch';
 import { join } from 'path';
 require('dotenv').config();
+const expressStaticGzip = require('express-static-gzip');
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -13,7 +14,6 @@ import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
-  console.log('NODE_ENV', process.env.NODE_ENV);
   const distFolder = process.env.NODE_ENV === 'production' ? '/var/www/code/browser' : 'dist/demo-angular-universal/browser';
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
@@ -25,15 +25,15 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
-    lastModified: false,
-    cacheControl: false
+  server.get('*.*', expressStaticGzip(distFolder, {
+    enableBrotli: true,
+    orderPreference: ['br', 'gz']
   }));
 
   // Example Express Rest API endpoints
   server.get('/api/list-characters', (request, response) => {
     response.setHeader('Content-Type', 'application/json');
+    console.log('getUrlCharacter', getUrlCharacter());
     fetch(getUrlCharacter())
     // tslint:disable-next-line:no-shadowed-variable
       .then((response) => response.json())
