@@ -1,5 +1,6 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import { CharacterActions } from './character-actions';
+import {Injectable} from '@angular/core';
 
 interface Character {
   id: number;
@@ -23,6 +24,7 @@ export interface CharacterStoreInterface {
     result: []
   }
 })
+@Injectable()
 export class CharacterStore {
 
   @Selector()

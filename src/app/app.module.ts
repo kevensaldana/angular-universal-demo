@@ -15,7 +15,9 @@ import {environment} from '../environments/environment';
   ],
   imports: [
     HttpClientModule,
-    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: !environment.production
+    }),
     NgxsModule.forRoot([CharacterStore], {
       developmentMode: !environment.production
     }),

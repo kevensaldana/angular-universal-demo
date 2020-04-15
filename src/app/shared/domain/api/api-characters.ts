@@ -8,6 +8,6 @@ export class ApiCharacters {
 
   }
   fetch() {
-    return this.apiService.get<ResponseCharacter>('/api/list-characters');
+    return this.apiService.get<ResponseCharacter>(window.location.origin + '/api/list-characters');
   }
 }

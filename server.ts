@@ -9,13 +9,24 @@ const expressStaticGzip = require('express-static-gzip');
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
+
+// ssr DOM
+const domino = require('domino');
+
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
   const server = express();
   const distFolder = process.env.NODE_ENV === 'production' ? '/var/www/code/browser' : 'dist/demo-angular-universal/browser';
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+
+  // index from browser build!
+  const template = readFileSync(join(distFolder, 'index.html')).toString();
+  // for mock global window by domino
+  const win = domino.createWindow(template);
+  global['window'] = win;
+  global['document'] = win.document;
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
