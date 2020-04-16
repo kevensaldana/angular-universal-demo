@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {Inject, NgModule, PLATFORM_ID, APP_ID} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,6 @@ import { CharacterStore } from './shared/domain/character-store';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import {environment} from '../environments/environment';
-import { isPlatformBrowser } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -30,11 +29,4 @@ import { isPlatformBrowser } from '@angular/common';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId,
-    @Inject(APP_ID) private appId
-  ) {
-    const platform = isPlatformBrowser(this.platformId) ? 'browser' : 'server';
-    console.log('I\'m on the ', platform);
-  }
 }

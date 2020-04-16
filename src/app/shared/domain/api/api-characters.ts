@@ -2,7 +2,6 @@ import {Injectable, PLATFORM_ID, APP_ID, Inject} from '@angular/core';
 import {ResponseCharacter} from './response-character';
 import {ApiService} from '../api.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
-import {isPlatformBrowser} from '@angular/common';
 import { tap } from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -16,9 +15,6 @@ export class ApiCharacters {
 
   }
   fetch() {
-    const platform = isPlatformBrowser(this.platformId) ?
-      'in the browser' : 'on the server';
-    console.log(`ApiCharacters : Running ${platform} with appId=${this.appId}`);
     const res = this.state.get<ResponseCharacter>(STATE_KEY_ITEMS, new ResponseCharacter());
     if (res.result.length === 0) {
       return this.apiService.get<ResponseCharacter>( '/api/list-characters').pipe(tap((data) => {

@@ -38,13 +38,15 @@ export function app() {
 
   server.get('*.*', expressStaticGzip(distFolder, {
     enableBrotli: true,
-    orderPreference: ['br', 'gz']
+    orderPreference: ['br', 'gz'],
+    serveStatic: {
+      maxAge: '1d'
+    }
   }));
 
   // Example Express Rest API endpoints
   server.get('/api/list-characters', (request, response) => {
     response.setHeader('Content-Type', 'application/json');
-    console.log('getUrlCharacter', getUrlCharacter());
     fetch(getUrlCharacter())
     // tslint:disable-next-line:no-shadowed-variable
       .then((response) => response.json())
