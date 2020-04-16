@@ -1,4 +1,5 @@
-import { AfterViewInit, Directive, ElementRef, HostBinding, Input } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Directive, ElementRef, HostBinding, Inject, Input, PLATFORM_ID} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appLazyLoad]'
@@ -7,10 +8,12 @@ export class LazyLoadDirective implements AfterViewInit {
   @HostBinding('style.background-image') srcAttr = null;
   @Input() src: string;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId, ) {}
 
   ngAfterViewInit() {
-    this.canLazyLoad() ? this.lazyLoadImage() : this.loadImage();
+    if (isPlatformBrowser(this.platformId)) {
+      this.canLazyLoad() ? this.lazyLoadImage() : this.loadImage();
+    }
   }
 
   private canLazyLoad() {
@@ -31,6 +34,7 @@ export class LazyLoadDirective implements AfterViewInit {
 
   private loadImage() {
     this.srcAttr = `url(${this.src})`;
+    this.changeDetectorRef.detectChanges();
   }
 
 }
