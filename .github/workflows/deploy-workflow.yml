@@ -29,7 +29,12 @@ jobs:
     steps:
       - name: Deploy Project
         uses: appleboy/ssh-action@master
+        env:
+          AM_TS: ${{secrets.AM_TS}}
+          AM_KEY: ${{secrets.AM_KEY}}
+          AM_HASH: ${{secrets.AM_HASH}}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+          script: cd traefik-website/ && docker-compose pull angular && docker-compose up -d angular
