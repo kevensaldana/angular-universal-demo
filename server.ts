@@ -83,7 +83,10 @@ function getUrlCharacter() {
 
 function run() {
   const port = process.env.PORT || 4000;
-
+  console.log('process.env', process.env);
+  console.log('process.env.AM_KEY', process.env.AM_KEY);
+  console.log('process.env.AM_TS', process.env.AM_TS);
+  console.log('process.env.AM_HASH', process.env.AM_HASH);
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
