@@ -37,4 +37,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+          envs: AM_TS,AM_KEY,AM_HASH
           script: cd traefik-website/ && docker-compose pull angular && docker-compose up -d angular
