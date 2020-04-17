@@ -13,7 +13,7 @@ export class UniversalInterceptor implements HttpInterceptor {
     // @ts-ignore
     let serverReq: HttpRequest = req;
     if (this.request) {
-      let newUrl = `${this.request.protocol}://${this.request.get('host')}`;
+      let newUrl = `http://localhost:4000`;
       if (!req.url.startsWith('/')) {
         newUrl += '/';
       }
