@@ -1,5 +1,14 @@
 <app-header></app-header>
 <div class="max-w-screen-lg mx-auto">
+  <div *ngIf="isStandAlone" class="bg-surface p-2 mx-6">
+    <p class="m-0">Mode standalone</p>
+  </div>
+  <div class="bg-surface text-center p-2 mx-6" *ngIf="(applicationInstallable$ | async)">
+    <p class="text-lg mb-4 m-0"> Access angular pwa offline using our web app</p>
+    <button (click)="install_app()" class="bg-green text-black py-2 px-8 rounded">Install</button>
+  </div>
+
+  <div *ngIf="!(applicationOnline$ |  async)" class="bg-red  mx-6 text-center p-2 mt-4"><p class="m-0">You are offline </p></div>
   <div class="mt-8">
     <router-outlet></router-outlet>
   </div>

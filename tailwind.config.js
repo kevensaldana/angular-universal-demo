@@ -14,6 +14,7 @@ module.exports = {
       xl: "1530px",
     },
     colors: {
+      black: "black",
       white: "white",
       transparent: "transparent",
       primary: "var(--primary)",
@@ -23,8 +24,10 @@ module.exports = {
       on_background: "var(--on_background)",
       surface: "var(--surface)",
       on_surface: "var(--on_surface)",
-      error: "var(--error)",
-      on_error: "var(--on_error)",
+      red: "var(--red)",
+      green: "var(--green)",
+      blue: "var(--blue)",
+      yellow: "var(--yellow)",
       gray: {
         100: "#f7fafc",
         200: "#edf2f7",

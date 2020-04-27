@@ -30,7 +30,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss"
@@ -154,8 +155,9 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
+            "port": 4000,
             "browserTarget": "demo-angular-universal:build",
-            "serverTarget": "demo-angular-universal:server"
+            "serverTarget": "demo-angular-universal:server",
           },
           "configurations": {
             "production": {

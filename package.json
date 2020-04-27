@@ -1,7 +1,7 @@
 {
   "name": "demo-angular-universal",
-  "version": "0.0.0",
-  "description": "Angular Universal Template",
+  "version": "0.0.1",
+  "description": "Angular Universal-PWA Template",
   "author": "Keven Saldaña <keven.sa17@gmail.com>",
   "scripts": {
     "ng": "ng",
@@ -33,6 +33,13 @@
     "node-fetch": "^2.6.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "workbox-cacheable-response": "^5.0.0",
+    "workbox-core": "^5.0.0",
+    "workbox-expiration": "^5.0.0",
+    "workbox-google-analytics": "^5.0.0",
+    "workbox-precaching": "^5.0.0",
+    "workbox-routing": "^5.0.0",
+    "workbox-strategies": "^5.0.0",
     "xhr2": "^0.2.0",
     "zone.js": "~0.10.2"
   },
@@ -67,6 +74,7 @@
     "tailwindcss": "^1.2.0",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "workbox-webpack-plugin": "5.0.0"
   }
 }
