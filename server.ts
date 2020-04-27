@@ -25,8 +25,8 @@ export function app() {
   const template = readFileSync(join(distFolder, 'index.html')).toString();
   // for mock global window by domino
   const win = domino.createWindow(template);
-  global.window = win;
-  global.document = win.document;
+  global['window'] = win;
+  global['document'] = win.document;
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
