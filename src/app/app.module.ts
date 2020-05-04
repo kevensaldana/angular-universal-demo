@@ -4,10 +4,10 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {NgxsModule} from '@ngxs/store';
-import { CharacterStore } from './shared/domain/character-store';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import {environment} from '../environments/environment';
+import {CharacterStore} from '@shared/characters/domain/character-store';
 
 @NgModule({
   declarations: [

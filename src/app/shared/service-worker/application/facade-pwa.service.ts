@@ -1,9 +1,13 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { filter, first, map, startWith, tap } from 'rxjs/operators';
-
+import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
+import { filter, first, tap } from 'rxjs/operators';
 import { Workbox } from 'workbox-window';
+import {HandlerFirebase} from '@shared/service-worker/domain/handler-firebase';
+import {CheckApplicationOnline} from '@shared/service-worker/domain/check-application-online';
+import { RequestPermissionNotification } from '../domain/request-permission-notification';
+import {CheckRunningStandAlone} from '@shared/service-worker/domain/check-running-stand-alone';
+import { ApiWebNotifications } from '../domain/api-web-notifications';
 import {environment} from '../../../../environments/environment';
 
 declare const window: any;
@@ -18,17 +22,12 @@ export interface BeforeInstallPromptEvent extends Event {
 })
 export class FacadePwaService {
 
-  applicationOnline$: Observable<boolean> = merge(
-    fromEvent(window, 'offline'),
-    fromEvent(window, 'online'),
-  ).pipe(
-    map(() => navigator.onLine),
-    startWith(true),
-  );
+  applicationOnline$ = this.checkApplicationOnline.check();
+  statusNotificationsPermissions$ = this.requestPermissionNotification.hasPermission$;
 
   newVersionAvailable$: Observable<boolean>;
   applicationInstallable$: Observable<boolean>;
-  runningStandAlone = false;
+
 
   private newVersionAvailable = new BehaviorSubject(false);
   private applicationUpdateRequested = new BehaviorSubject(false);
@@ -46,25 +45,36 @@ export class FacadePwaService {
 
   private serviceWorkerAvailable = false;
   private visible = true;
+  runningStandAlone = false;
 
   constructor(
+    private handlerFirebase: HandlerFirebase,
+    private checkApplicationOnline: CheckApplicationOnline,
+    private requestPermissionNotification: RequestPermissionNotification,
+    private checkRunningStandAlone: CheckRunningStandAlone,
     @Inject(PLATFORM_ID) private readonly platformId,
     @Inject(DOCUMENT) private readonly document: Document,
+    private apiWebNotifications: ApiWebNotifications
   ) {
 
   }
 
   initTasks() {
+    this.handlerFirebase.init();
     this.newVersionAvailable$ = this.newVersionAvailable.asObservable();
     this.applicationInstallable$ = this.applicationInstallable.asObservable();
     this.checkInstallPrompt();
+    this.runningStandAlone = this.checkRunningStandAlone.check();
     this.registerServiceWorker().then(() => {});
-    this.checkRunningStandAlone();
     this.registerVisibleChangeListener();
   }
 
   update(): void {
     this.applicationUpdateRequested.next(true);
+  }
+
+  requestPermission() {
+    this.requestPermissionNotification.request();
   }
 
   async checkForUpdate(): Promise<any> {
@@ -78,6 +88,10 @@ export class FacadePwaService {
     } else {
       console.log('sw functionality currently not available');
     }
+  }
+
+  sendTokenServer() {
+    return this.apiWebNotifications.push(this.handlerFirebase.tokenPush);
   }
 
   promptInstall(): Promise<void> {
@@ -100,10 +114,13 @@ export class FacadePwaService {
       return;
     }
 
+
+
     const wb = new Workbox(this.sw.file, this.sw.registerOptions);
 
     wb.addEventListener('activated', async event => {
       if (!event.isUpdate) {
+        this.handlerFirebase.vapidFCM(this.swRegistration).then();
         // If your service worker is configured to precache assets, those
         // assets should all be available now.
 
@@ -178,6 +195,7 @@ export class FacadePwaService {
 
     try {
       this.swRegistration = await wb.register();
+      this.vapidFCM();
       setInterval(async () => {
         this.checkForUpdate();
       }, this.sw.updateInterval);
@@ -190,18 +208,9 @@ export class FacadePwaService {
     }
   }
 
-  private checkRunningStandAlone(): void {
-    // only do this in the browser
-    if (isPlatformBrowser(this.platformId) && 'matchMedia' in window) {
-      if ((navigator as any).standalone) {
-        console.log('Launched: Installed (iOS)');
-        this.runningStandAlone = true;
-      } else if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('Launched: Installed');
-        this.runningStandAlone = true;
-      } else {
-        console.log('Launched: Browser Tab');
-      }
+  private vapidFCM() {
+    if (navigator.serviceWorker.controller && navigator.serviceWorker.controller.state === 'activated') {
+      this.handlerFirebase.vapidFCM(this.swRegistration).then();
     }
   }
 

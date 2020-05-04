@@ -3,6 +3,7 @@ import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import fetch from 'node-fetch';
+const bodyParser = require('body-parser');
 import { join } from 'path';
 require('dotenv').config();
 const expressStaticGzip = require('express-static-gzip');
@@ -33,6 +34,8 @@ export function app() {
     bootstrap: AppServerModule,
   }));
 
+  server.use(bodyParser.json());
+
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
@@ -43,6 +46,32 @@ export function app() {
       maxAge: '1d'
     }
   }));
+
+  server.post('/api/web-push-test', (request, response) => {
+    response.setHeader('Content-Type', 'application/json');
+    const token = request.body.token;
+    const notification = JSON.stringify({
+      notification: {
+        title: 'New Hero',
+        body: 'Firebase is awesome',
+        icon: 'assets/icons/icon-48x48.png'
+      },
+      to: token
+    });
+    fetch('https://fcm.googleapis.com/fcm/send', {
+      headers: {'Content-Type': 'application/json', Authorization: `key=${process.env.FCM_KEY_SERVER}`},
+      method: 'post',
+      body: notification
+    }
+      )
+    // tslint:disable-next-line:no-shadowed-variable
+      .then((response) => response.json())
+      .then((data) => {
+        return response.send(JSON.stringify(data));
+      })
+    ;
+  });
+
 
   // Example Express Rest API endpoints
   server.get('/api/list-characters', (request, response) => {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
-import {SeoRepository} from '@shared/domain/seo/seo-repository';
+import { SeoRepository } from '../domain/seo-repository';
 
 @Injectable({ providedIn: 'root' })
 export class SeoFacade {

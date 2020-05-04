@@ -8,11 +8,11 @@ import {setCacheNameDetails} from "workbox-core";
 cleanupOutdatedCaches();
 
 setCacheNameDetails({
-  prefix: 'angular',
-  suffix: 'pwa',
-  precache: 'precache',
-  runtime: 'run-time',
-  googleAnalytics: 'ga',
+  prefix: "angular",
+  suffix: "pwa",
+  precache: "precache",
+  runtime: "run-time",
+  googleAnalytics: "ga",
 });
 
 precacheAndRoute(self.__WB_MANIFEST);
@@ -31,7 +31,7 @@ registerRoute(
 );
 
 registerRoute(
-  new RegExp('/api/'),
+  new RegExp("/api/"),
   new StaleWhileRevalidate({
     cacheName: "api",
     plugins: [
@@ -40,13 +40,12 @@ registerRoute(
       }),
       new ExpirationPlugin({
         maxEntries: 60,
-        maxAgeSeconds: 24*60*60,
+        maxAgeSeconds: 24 * 60 * 60,
         purgeOnQuotaError: true,
       }),
     ],
-  })
+  }),
 );
-
 
 registerRoute(
   /^http:\/\/i\.annihil\.us/,
@@ -58,7 +57,7 @@ registerRoute(
       }),
       new ExpirationPlugin({
         maxEntries: 60,
-        maxAgeSeconds: 24*60*60,
+        maxAgeSeconds: 24 * 60 * 60,
         purgeOnQuotaError: true,
       }),
     ],
@@ -72,4 +71,31 @@ self.addEventListener("message", event => {
   if (event.data && event.data.type === "CLIENTS_CLAIM") {
     self.clients.claim();
   }
+});
+
+self.addEventListener('notificationclose', function(e) {
+  console.log('Closed notification: ' ,  e);
+});
+
+self.addEventListener("notificationclick", function(event) {
+  console.log("SW: Clicked notification", event);
+});
+
+self.addEventListener("push", event => {
+  if (!(self.Notification && self.Notification.permission === "granted")) {
+    return;
+  }
+  let notification;
+  if (event.data) {
+    notification = event.data.json().notification;
+  }
+  const options = {
+    body: notification.body,
+    icon: notification.icon,
+    vibrate: [100, 50, 100]
+  };
+  event.waitUntil(
+    self.registration.showNotification(notification.title, options)
+  );
+
 });

@@ -1,9 +1,9 @@
 import {Injectable, PLATFORM_ID, APP_ID, Inject} from '@angular/core';
-import {ResponseCharacter} from './response-character';
-import {ApiService} from '../api.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import { tap } from 'rxjs/operators';
 import {of} from 'rxjs';
+import {ApiService} from '@shared/common-infrastructure/api.service';
+import {ResponseCharacter} from '@shared/characters/domain/response-character';
 
 const STATE_KEY_ITEMS = makeStateKey('ResponseCharacter');
 

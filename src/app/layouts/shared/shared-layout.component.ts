@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import {FacadePwaService} from '@shared/infrastructure/sw/facade-pwa.service';
+import {Component, OnInit} from '@angular/core';
 import {shareReplay, takeUntil, tap} from 'rxjs/operators';
-import {BaseComponent} from '@shared/infrastructure/ui/base.component';
+import {BaseComponent} from '@shared/ui/base.component';
+import { FacadePwaService } from '@shared/service-worker/application/facade-pwa.service';
 
 @Component({
   templateUrl: './shared-layout.component.html'
 })
-export class SharedLayoutComponent  extends BaseComponent {
+export class SharedLayoutComponent  extends BaseComponent implements OnInit {
   public readonly applicationInstallable$ = this.facadePwaService.applicationInstallable$;
   public readonly isStandAlone = this.facadePwaService.runningStandAlone;
+  public readonly statusPermission$ = this.facadePwaService.statusNotificationsPermissions$;
   public readonly newVersionAvailable$ = this.facadePwaService.newVersionAvailable$.pipe(
     tap((newVersionAvailable) => {
       if (newVersionAvailable) {
@@ -27,11 +28,18 @@ export class SharedLayoutComponent  extends BaseComponent {
     super();
   }
 
-  install_app() {
+  installApp() {
     this.facadePwaService.promptInstall();
   }
 
   ngOnInit() {
     this.newVersionAvailable$.pipe(takeUntil(this.destroy$)).subscribe();
+  }
+
+  getNotifications() {
+    this.facadePwaService.requestPermission();
+  }
+  sendNotification() {
+    this.facadePwaService.sendTokenServer().pipe(takeUntil(this.destroy$)).subscribe();
   }
 }

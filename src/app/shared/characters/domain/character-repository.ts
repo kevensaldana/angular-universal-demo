@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {ApiCharacters} from './api/api-characters';
 import {Store} from '@ngxs/store';
-import {CharacterStore, CharacterStoreInterface} from '@shared/domain/character-store';
 import {tap} from 'rxjs/operators';
-import {CharacterActions} from '@shared/domain/character-actions';
+import {CharacterActions} from '@shared/characters/domain/character-actions';
+import { CharacterStore } from './character-store';
+import {ApiCharacters} from '@shared/characters/domain/api-characters';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterRepository {

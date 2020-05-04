@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {CharactersFacade} from '@shared/application/characters-facade';
-import {BaseComponent} from '@shared/infrastructure/ui/base.component';
 import {takeUntil} from 'rxjs/operators';
+import {BaseComponent} from '@shared/ui/base.component';
+import { CharactersFacade } from '@shared/characters/application/characters-facade';
 
 @Component({
   templateUrl: './public-feature.component.html'

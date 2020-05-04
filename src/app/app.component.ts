@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SeoFacade} from '@shared/application/seo-facade';
-import {FacadePwaService} from '@shared/infrastructure/sw/facade-pwa.service';
+import {FacadePwaService} from '@shared/service-worker/application/facade-pwa.service';
+import {SeoFacade} from '@shared/seo/application/seo-facade';
 
 @Component({
   selector: 'app-root',
@@ -14,5 +14,4 @@ export class AppComponent implements OnInit {
     this.facadePwaService.initTasks();
     this.seoFacade.addTags();
   }
-
 }

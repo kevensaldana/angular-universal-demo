@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {SharedLayoutComponent} from './shared-layout.component';
-import {HeaderComponent} from './infrastructure/ui/header/header.component';
-import { FooterComponent } from './infrastructure/ui/footer/footer.component';
+import {FooterComponent} from '@ui/shared/ui/footer/footer.component';
+import {HeaderComponent} from '@ui/shared/ui/header/header.component';
 
 export const routes: Routes = [
   {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from '@shared/infrastructure/ui/base.component';
-import {CharactersFacade} from '@shared/application/characters-facade';
+import { BaseComponent } from '@shared/ui/base.component';
+import {CharactersFacade} from '@shared/characters/application/characters-facade';
 
 @Component({
   selector: 'app-character-list',
