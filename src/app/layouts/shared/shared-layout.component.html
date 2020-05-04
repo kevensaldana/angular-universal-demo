@@ -7,7 +7,7 @@
     <p class="text-lg mb-4 m-0"> Access angular pwa offline using our web app</p>
     <button (click)="installApp()" class="bg-green text-black py-2 px-8 rounded">Install</button>
   </div>
-  <div class="bg-surface text-center p-2 mx-6" >
+  <div class="bg-surface text-center p-2 mx-6" *ngIf="canShowNotifications$ | async">
     <p class="text-lg mb-4 m-0"> Notifications on your device to get breaking updates about this</p>
     <button *ngIf="!(statusPermission$ | async); else btnSend" (click)="getNotifications()" class="bg-primary text-black py-2 px-8 rounded">Get Notifications</button>
     <ng-template #btnSend>

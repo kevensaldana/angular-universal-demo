@@ -3,10 +3,13 @@ import firebase from '@firebase/app';
 import '@firebase/messaging';
 import { isPlatformBrowser } from '@angular/common';
 import {FirebaseMessaging} from '@firebase/messaging-types';
+import {BehaviorSubject} from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class HandlerFirebase {
+  public canShowNotifications$ = new BehaviorSubject<boolean>(false);
   messaging: FirebaseMessaging;
   tokenPush: string;
   constructor(@Inject(PLATFORM_ID) private readonly platformId) {
@@ -31,7 +34,8 @@ export class HandlerFirebase {
 
   async vapidFCM(swRegistration: ServiceWorkerRegistration) {
     try {
-      if (isPlatformBrowser(this.platformId)) {
+      if (isPlatformBrowser(this.platformId) && firebase.messaging.isSupported()) {
+        this.canShowNotifications$.next(true);
         this.messaging = firebase.messaging();
         this.messaging.useServiceWorker(swRegistration);
         this.messaging.usePublicVapidKey('BLpqpNAoSWW9syR6si12cywk2ccAqmSSvjOHf7MUmF35i-ki2oSnlFuQR-BTZoFo3bFUwaMgPhDr8mxbiw41RV0');

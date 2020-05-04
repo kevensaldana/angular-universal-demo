@@ -24,6 +24,7 @@ export class FacadePwaService {
 
   applicationOnline$ = this.checkApplicationOnline.check();
   statusNotificationsPermissions$ = this.requestPermissionNotification.hasPermission$;
+  canShowNotifications$ = this.handlerFirebase.canShowNotifications$;
 
   newVersionAvailable$: Observable<boolean>;
   applicationInstallable$: Observable<boolean>;
@@ -104,7 +105,7 @@ export class FacadePwaService {
   private async registerServiceWorker(): Promise<any> {
     // only do this in the browser
     if (isPlatformBrowser(this.platformId)) {
-      this.serviceWorkerAvailable = 'serviceWorker' in navigator && environment.production;
+      this.serviceWorkerAvailable = 'serviceWorker' in navigator;
     }
 
     // Check that service workers are available

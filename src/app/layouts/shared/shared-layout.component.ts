@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {shareReplay, takeUntil, tap} from 'rxjs/operators';
+import {shareReplay, takeUntil, tap, take} from 'rxjs/operators';
 import {BaseComponent} from '@shared/ui/base.component';
 import { FacadePwaService } from '@shared/service-worker/application/facade-pwa.service';
 
@@ -10,6 +10,7 @@ export class SharedLayoutComponent  extends BaseComponent implements OnInit {
   public readonly applicationInstallable$ = this.facadePwaService.applicationInstallable$;
   public readonly isStandAlone = this.facadePwaService.runningStandAlone;
   public readonly statusPermission$ = this.facadePwaService.statusNotificationsPermissions$;
+  public readonly canShowNotifications$ = this.facadePwaService.canShowNotifications$;
   public readonly newVersionAvailable$ = this.facadePwaService.newVersionAvailable$.pipe(
     tap((newVersionAvailable) => {
       if (newVersionAvailable) {
@@ -40,6 +41,6 @@ export class SharedLayoutComponent  extends BaseComponent implements OnInit {
     this.facadePwaService.requestPermission();
   }
   sendNotification() {
-    this.facadePwaService.sendTokenServer().pipe(takeUntil(this.destroy$)).subscribe();
+    this.facadePwaService.sendTokenServer().pipe(take(1)).subscribe();
   }
 }
