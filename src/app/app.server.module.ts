@@ -4,7 +4,7 @@ import {ServerModule, ServerTransferStateModule} from '@angular/platform-server'
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {UniversalInterceptor} from '@shared/common-infrastructure/universal-interceptor';
+import { UniversalInterceptor } from '@shared/common-application/universal-interceptor';
 
 @NgModule({
   imports: [

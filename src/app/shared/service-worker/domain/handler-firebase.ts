@@ -1,6 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import firebase from '@firebase/app';
 import '@firebase/messaging';
+import '@firebase/performance';
+import '@firebase/analytics';
 import { isPlatformBrowser } from '@angular/common';
 import {FirebaseMessaging} from '@firebase/messaging-types';
 import {BehaviorSubject} from 'rxjs';
@@ -21,8 +23,11 @@ export class HandlerFirebase {
         apiKey: 'AIzaSyB8-SHHBfq63wTGYwdpYZGjhzulza6hdR8',
         projectId: 'angular-keven-template',
         messagingSenderId: '910361033064',
-        appId: '1:910361033064:web:e3b0499142858d3d5a7edd'
+        appId: '1:910361033064:web:e3b0499142858d3d5a7edd',
+        measurementId: 'G-F8F0M4WMDY'
       });
+      firebase.performance();
+      firebase.analytics();
     }
   }
 
