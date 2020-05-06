@@ -13,5 +13,6 @@ export class TrackingErrorJs {
       action : 'Error runtime',
       label: data
     });
+    console.log('errorGlobalJSEvent', dataLayer[dataLayer.length - 1]);
   }
 }
