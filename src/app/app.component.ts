@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.facadeTrackError.listenErrors();
     this.facadePwaService.initTasks();
     this.seoFacade.addTags();
   }

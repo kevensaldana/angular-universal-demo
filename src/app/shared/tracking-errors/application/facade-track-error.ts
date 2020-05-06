@@ -6,6 +6,8 @@ import {Injectable} from '@angular/core';
 })
 export class FacadeTrackError {
   constructor(private sendError: SendError) {
+  }
+  listenErrors() {
     this.sendError.init();
   }
 }

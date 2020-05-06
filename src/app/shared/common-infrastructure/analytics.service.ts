@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 
 declare var dataLayer: any[];
 
@@ -10,32 +11,36 @@ interface Metrics {
   providedIn: 'root'
 })
 export class AnalyticsService {
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId) {}
 
   setVirtualPageView(pageName: string): void {
-    dataLayer.push({
-      event: 'virtualPageView',
-      pageName: pageName ? pageName : ''
-    });
-    console.log('virtualPageView', dataLayer[dataLayer.length - 1]);
+    if (isPlatformBrowser(this.platformId)) {
+      dataLayer.push({
+        event: 'virtualPageView',
+        pageName: pageName ? pageName : ''
+      });
+    }
+
   }
 
   setVirtualEvent(category: string, action: string, label: string, metrics?: Metrics): void {
-    dataLayer.push({
-      event: 'virtualEvent',
-      category,
-      action,
-      label,
-      ...metrics
-    });
-    console.log('virtualEvent', dataLayer[dataLayer.length - 1]);
+    if (isPlatformBrowser(this.platformId)) {
+      dataLayer.push({
+        event: 'virtualEvent',
+        category,
+        action,
+        label,
+        ...metrics
+      });
+    }
   }
 
   setSessionUserEvent(userId: string): void {
-    dataLayer.push({
-      event: 'sessionUserEvent',
-      userId
-    });
-    console.log('sessionUserEvent', dataLayer[dataLayer.length - 1]);
+    if (isPlatformBrowser(this.platformId)) {
+      dataLayer.push({
+        event: 'sessionUserEvent',
+        userId
+      });
+    }
   }
 }
