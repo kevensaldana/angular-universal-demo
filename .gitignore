@@ -47,3 +47,5 @@ Thumbs.db
 
 .env
 package-lock.json
+.yalc/
+yalc.lock

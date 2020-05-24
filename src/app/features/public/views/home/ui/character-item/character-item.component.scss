@@ -1,5 +1,9 @@
 .character-item{
   $this: &;
+  height: 12rem;
+  @screen lg {
+    height: 24rem;
+  }
   &:hover{
     #{$this}__content{
       opacity: 1;

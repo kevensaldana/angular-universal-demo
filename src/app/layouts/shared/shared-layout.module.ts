@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {SharedLayoutComponent} from './shared-layout.component';
@@ -21,6 +21,7 @@ export const routes: Routes = [
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)],
   declarations: [SharedLayoutComponent, HeaderComponent, FooterComponent],
-  exports: [SharedLayoutComponent]
+  exports: [SharedLayoutComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedLayoutModule {}
