@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  urlDomain: 'https://api-marvel.kevensaldana.com'
 };

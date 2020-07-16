@@ -8,6 +8,6 @@ export class ApiWebNotifications {
 
   }
   push(token = '') {
-      return this.apiService.post( '/api/web-push-test', {token});
+    return this.apiService.post( 'character/push-notification', {token});
   }
 }

@@ -17,7 +17,7 @@ export class ApiCharacters {
   fetch() {
     const res = this.state.get<ResponseCharacter>(STATE_KEY_ITEMS, new ResponseCharacter());
     if (res.result.length === 0) {
-      return this.apiService.get<ResponseCharacter>( '/api/list-characters').pipe(tap((data) => {
+      return this.apiService.get<ResponseCharacter>( 'character').pipe(tap((data) => {
         this.state.set(STATE_KEY_ITEMS, data);
       }));
     } else {
