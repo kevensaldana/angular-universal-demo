@@ -2,10 +2,8 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import fetch from 'node-fetch';
 const bodyParser = require('body-parser');
 import { join } from 'path';
-require('dotenv').config();
 const expressStaticGzip = require('express-static-gzip');
 
 import { AppServerModule } from './src/main.server';
@@ -47,67 +45,12 @@ export function app() {
     }
   }));
 
-  server.post('/api/web-push-test', (request, response) => {
-    response.setHeader('Content-Type', 'application/json');
-    const token = request.body.token;
-    const notification = JSON.stringify({
-      notification: {
-        title: 'New Hero',
-        body: 'Firebase is awesome',
-        icon: 'assets/icons/icon-48x48.png'
-      },
-      to: token
-    });
-    fetch('https://fcm.googleapis.com/fcm/send', {
-      headers: {'Content-Type': 'application/json', Authorization: `key=${process.env.FCM_KEY_SERVER}`},
-      method: 'post',
-      body: notification
-    }
-      )
-    // tslint:disable-next-line:no-shadowed-variable
-      .then((response) => response.json())
-      .then((data) => {
-        return response.send(JSON.stringify(data));
-      })
-    ;
-  });
-
-
-  // Example Express Rest API endpoints
-  server.get('/api/list-characters', (request, response) => {
-    response.setHeader('Content-Type', 'application/json');
-    fetch(getUrlCharacter())
-    // tslint:disable-next-line:no-shadowed-variable
-      .then((response) => response.json())
-      // tslint:disable-next-line:no-shadowed-variable
-      .then((response) => {
-        const {data} = response;
-        const result = data.results.map(item => ({
-          id: item.id,
-          name: item.name,
-          description: item.description,
-          image: `${item.thumbnail.path.replace('http', 'https')}.${item.thumbnail.extension}`
-        }));
-        return {
-          limit: data.limit,
-          total: data.total,
-          count: data.count,
-          result
-        };
-      })
-      .then((data) => response.send(JSON.stringify(data)));
-  });
-
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
   return server;
-}
-
-function getUrlCharacter() {
-  return `https://gateway.marvel.com:443/v1/public/characters?ts=${process.env.AM_TS}&apikey=${process.env.AM_KEY}&hash=${process.env.AM_HASH}`;
 }
 
 function run() {
