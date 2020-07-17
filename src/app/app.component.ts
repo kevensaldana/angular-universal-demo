@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FacadePwaService} from '@shared/service-worker/application/facade-pwa.service';
-import {SeoFacade} from '@shared/seo/application/seo-facade';
-import { FacadeTrackError } from '@shared/tracking-errors/application/facade-track-error';
+import {SeoFacade} from '@shared/infrastructure/seo/seo-facade';
+import { FacadePwaService } from '@shared/infrastructure/pwa/facade-pwa.service';
+import { FacadeTrackError } from '@shared/infrastructure/tracking-errors/facade-track-error';
 
 @Component({
   selector: 'app-root',

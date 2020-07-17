@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {shareReplay, takeUntil, tap, take} from 'rxjs/operators';
-import {BaseComponent} from '@shared/ui/base.component';
-import { FacadePwaService } from '@shared/service-worker/application/facade-pwa.service';
+import {BaseComponent} from '@shared/presentation/ui/base/base.component';
+import {FacadePwaService} from '@shared/infrastructure/pwa/facade-pwa.service';
 
 @Component({
   templateUrl: './shared-layout.component.html'

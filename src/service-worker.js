@@ -31,7 +31,7 @@ registerRoute(
 );
 
 registerRoute(
-  new RegExp("/api/"),
+  new RegExp("/character"),
   new StaleWhileRevalidate({
     cacheName: "api",
     plugins: [
